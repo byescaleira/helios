@@ -5,8 +5,8 @@
   "description": "Invisible iOS specialist for Claude Code. Auto-detects iOS projects, silently enforces Swift/SwiftUI best practices, and validates every change with build, tests, lint and format via XcodeBuildMCP.",
   "author": "Rafael Santos",
   "license": "MIT",
-  "homepage": "https://github.com/rafaelsantos/helios",
-  "repository": "https://github.com/rafaelsantos/helios",
+  "homepage": "https://github.com/byescaleira/helios",
+  "repository": "https://github.com/byescaleira/helios",
   "keywords": ["ios", "swift", "swiftui", "xcode", "swift-concurrency", "spm", "xcodebuildmcp", "helios"],
   "components": {
     "skills": [

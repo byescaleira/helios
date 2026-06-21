@@ -17,7 +17,7 @@ Invisible iOS specialist for Claude Code. Auto-detects iOS projects, silently en
 ### From source (development)
 
 ```bash
-git clone https://github.com/rafaelsantos/helios.git
+git clone https://github.com/byescaleira/helios.git
 cd helios
 claude plugin install .
 ```
@@ -25,7 +25,7 @@ claude plugin install .
 ### From GitHub
 
 ```bash
-claude plugin install rafaelsantos/helios
+claude plugin install byescaleira/helios
 ```
 
 ## Requirements
