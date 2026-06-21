@@ -1,0 +1,32 @@
+{
+  "id": "helios",
+  "name": "helios",
+  "version": "1.0.0",
+  "description": "Invisible iOS specialist for Claude Code. Auto-detects iOS projects, silently enforces Swift/SwiftUI best practices, and validates every change with build, tests, lint and format via XcodeBuildMCP.",
+  "author": "Rafael Santos",
+  "license": "MIT",
+  "homepage": "https://github.com/rafaelsantos/helios",
+  "repository": "https://github.com/rafaelsantos/helios",
+  "keywords": ["ios", "swift", "swiftui", "xcode", "swift-concurrency", "spm", "xcodebuildmcp", "helios"],
+  "components": {
+    "skills": [
+      "ios-core",
+      "ios-swiftui",
+      "ios-concurrency",
+      "ios-navigation",
+      "ios-error-handling",
+      "ios-testing",
+      "ios-performance",
+      "ios-modularization",
+      "ios-xcodebuild"
+    ],
+    "agents": [
+      "ios-expert",
+      "ios-buildfixer",
+      "ios-architect"
+    ],
+    "commands": [],
+    "hooks": true,
+    "mcpServers": true
+  }
+}

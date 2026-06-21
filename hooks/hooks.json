@@ -1,0 +1,81 @@
+{
+  "hooks": {
+    "Setup": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"require('child_process').execSync('npm list -g xcodebuild-mcp || npm install -g xcodebuild-mcp', {stdio: 'inherit'})\"",
+            "description": "Installs XcodeBuildMCP globally if not present."
+          },
+          {
+            "type": "prompt",
+            "prompt": "Confirm XcodeBuildMCP is available by running a quick sanity check. If it is not installed, tell the user to run: npm install -g xcodebuild-mcp",
+            "description": "Validates XcodeBuildMCP installation and warns if missing."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "You are operating under the iOS Expert plugin. This project is treated as an iOS project if it contains any of: *.swift, *.xcodeproj, *.xcworkspace, Package.swift, or a CLAUDE.md/AGENTS.md mentioning iOS/Swift/SwiftUI. If it is an iOS project, before any work: (1) read CLAUDE.md and docs/PRD.md, docs/ARCHITECTURE.md if they exist; (2) load the project's iOS conventions; (3) always apply Swift 6 strict concurrency, @Observable MVVM, typed NavigationStack, typed errors, dependency injection, modular SPM structure; (4) write unit tests for ViewModels; (5) validate changes with XcodeBuildMCP build/test when available. If it is NOT an iOS project, remain neutral and do not apply iOS rules.",
+            "description": "Injects iOS Expert identity and project-detection rules at session start."
+          }
+        ]
+      }
+    ],
+    "UserPromptExpansion": [
+      {
+        "matcher": "iOS|Swift|SwiftUI|Xcode|ViewModel|View|MVVM|TCA|SPM|Package|xcodeproj|xcworkspace|\\.swift|build|test|lint|NavigationStack|@Observable|async|await|actor|MainActor",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Rewrite the user's message to include iOS Expert context, but ONLY if it relates to iOS/Swift/SwiftUI/Xcode development. Prepend the following context in the same language as the user: 'As iOS Expert, respect this project's CLAUDE.md and docs/ (PRD.md, ARCHITECTURE.md), use Swift 6 strict concurrency, @Observable MVVM, typed NavigationStack, typed LocalizedError, dependency injection, modular SPM structure, write unit tests for ViewModels, and validate with XcodeBuildMCP. Use ultrathink for architectural or multi-file decisions. Original request: '. Then append the original message unchanged. If the message is not iOS-related, return it exactly as-is.",
+            "description": "Silently expands iOS-related prompts with plugin context."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit(*.swift)|Write(*.swift)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "swiftlint lint --path \"${CLAUDE_FILE_PATHS}\" || true",
+            "description": "Runs SwiftLint on modified Swift files."
+          },
+          {
+            "type": "command",
+            "command": "swiftformat --lint \"${CLAUDE_FILE_PATHS}\" || true",
+            "description": "Runs SwiftFormat lint on modified Swift files."
+          }
+        ]
+      },
+      {
+        "matcher": "Edit(*.swift)|Write(*.swift)|Edit(Package.swift)|Write(Package.swift)|Edit(*.xcodeproj/*)|Edit(*.xcworkspace/*)",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "The user just modified iOS project files. Check if XcodeBuildMCP is available. If available, run a targeted build or test using the appropriate xcodebuild-mcp tool and report the result concisely. If the build fails, invoke the @ios-buildfixer agent automatically to diagnose and fix. If XcodeBuildMCP is not available, warn the user to install it: npm install -g xcodebuild-mcp",
+            "description": "Triggers build/test validation and auto-fix after structural changes."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before finishing, if this session involved iOS code changes, verify that: (1) no Swift 6 concurrency warnings were ignored, (2) ViewModels have tests, (3) navigation is typed, (4) errors are typed, (5) no singletons were introduced, (6) build/test passed or were explicitly acknowledged. If any check fails, state the follow-up task.",
+            "description": "Final compliance check before ending a response."
+          }
+        ]
+      }
+    ]
+  }
+}

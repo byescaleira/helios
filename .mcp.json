@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "xcodebuild": {
+      "command": "npx",
+      "args": ["-y", "xcodebuild-mcp"],
+      "env": {
+        "NODE_NO_WARNINGS": "1"
+      },
+      "description": "Xcode build, test, clean and project introspection via MCP. Required by iOS Expert plugin.",
+      "required": true
+    }
+  }
+}
